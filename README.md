@@ -1,98 +1,129 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🚀 NestJS Backend — Tài Liệu Hướng Dẫn Sử Dụng (Full)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Chào mừng bạn đến với bản hướng dẫn chi tiết cho dự án Backend được xây dựng bằng **NestJS**. Tài liệu này cung cấp cái nhìn toàn diện từ cấu trúc code, cách cài đặt cho đến các tiêu chuẩn kỹ thuật được áp dụng.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 🏗️ Kiến Trúc Hệ Thống (Architecture)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Dự án tuân thủ nghiêm ngặt mô hình **MVC (Model-View-Controller)** và triết lý thiết kế của NestJS:
 
-## Project setup
+- **Model (Entities & DTOs)**: Định nghĩa cấu trúc dữ liệu và quy tắc kiểm tra (Validation).
+- **Controller**: Tiếp nhận Request, điều phối dữ liệu và trả về Response (RESTful).
+- **Service**: Nơi chứa 100% logic nghiệp vụ (Business Logic).
+- **Module**: Đóng gói các thành phần liên quan để đảm bảo tính module hóa và dễ bảo trì.
 
-```bash
-$ npm install
+---
+
+## 🛠️ Công Nghệ Sử Dụng (Tech Stack)
+
+- **Framework**: NestJS (Node.js)
+- **Database**: PostgreSQL
+- **ORM**: TypeORM (Hỗ trợ Migrations)
+- **Security**: Passport.js, JWT (2 luồng riêng biệt), Bcrypt (Hash password)
+- **Documentation**: Swagger API
+- **Standards**: ESLint & Prettier
+
+---
+
+## 🚦 Hướng Dẫn Cài Đặt (Setup)
+
+### 1. Chuẩn bị môi trường
+
+Copy file `.env.example` (hoặc tạo mới `.env`) và điền các thông số:
+
+```env
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=your_password
+DB_NAME=backend_db
+
+JWT_USER_SECRET=secret_for_user
+JWT_USER_EXPIRES_IN=7d
+
+JWT_ADMIN_SECRET=secret_for_admin
+JWT_ADMIN_EXPIRES_IN=1d
 ```
 
-## Compile and run the project
+### 2. Cài đặt Dependencies
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
 
-## Run tests
+### 3. Khởi tạo Database & Migrations
+
+Dự án sử dụng Migrations để quản lý cấu trúc bảng. Chạy lệnh sau để tạo bảng:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run migration:run
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 4. Chạy ứng dụng
 
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+# Chế độ phát triển (watch mode)
+npm run start:dev
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+---
 
-## Resources
+## 🔐 Hệ Thống Xác Thực (Authentication)
 
-Check out a few resources that may come in handy when working with NestJS:
+Hệ thống được thiết kế với **2 phân quyền độc lập**:
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+1.  **User**: Sử dụng bảng `users`. Token được ký bằng `JWT_USER_SECRET`.
+2.  **Admin**: Sử dụng bảng `admins`. Token được ký bằng `JWT_ADMIN_SECRET`.
 
-## Support
+> [!IMPORTANT]
+> Token của User không thể dùng cho các API của Admin và ngược lại. Điều này đảm bảo an toàn tuyệt đối cho các tính năng quản trị.
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+### Cách tạo tài khoản Admin đầu tiên:
 
-## Stay in touch
+Vì không có API đăng ký Admin công khai, bạn hãy dùng SQL để tạo tài khoản:
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```sql
+INSERT INTO admins (id, email, password, name)
+VALUES (
+  uuid_generate_v4(),
+  'admin@example.com',
+  '$2b$10$wN1G6W6P67LdC0y79p/lqe6O6yvG7rF6vR6N6S6H6M6K6L6J6I6H6', -- Hash của 'adminpassword'
+  'Super Admin'
+);
+```
 
-## License
+---
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+## 📋 Danh Mục API (Endpoints)
+
+| Module    | Phương Thức | Đường Dẫn           | Bảo Mật   | Mô Tả                    |
+| :-------- | :---------- | :------------------ | :-------- | :----------------------- |
+| **Auth**  | POST        | `/auth/user/login`  | Public    | Đăng nhập User           |
+|           | POST        | `/auth/admin/login` | Public    | Đăng nhập Admin          |
+| **User**  | GET         | `/users/me`         | User JWT  | Xem Profile cá nhân      |
+|           | PATCH       | `/users/me`         | User JWT  | Cập nhật Profile         |
+| **Gifts** | GET         | `/gifts`            | User JWT  | Xem danh sách quà tặng   |
+|           | GET         | `/gifts/:id`        | User JWT  | Xem chi tiết quà tặng    |
+| **Admin** | GET         | `/admin/gifts`      | Admin JWT | Quản lý toàn bộ quà tặng |
+|           | POST        | `/admin/gifts`      | Admin JWT | Tạo quà tặng mới         |
+|           | PATCH       | `/admin/gifts/:id`  | Admin JWT | Cập nhật quà tặng        |
+|           | DELETE      | `/admin/gifts/:id`  | Admin JWT | Xóa quà tặng (Xóa mềm)   |
+
+---
+
+## ✨ Tiêu Chuẩn Chất Lượng (Standards)
+
+1.  **RESTful API**: Sử dụng đúng HTTP Verbs, Resource naming (số nhiều) và Status codes chuẩn.
+2.  **Bảo mật dữ liệu**: Sử dụng `@Exclude()` để không bao giờ trả về mật khẩu trong JSON.
+3.  **Tài liệu tự động**: Truy cập [http://localhost:3000/api/docs](http://localhost:3000/api/docs) để xem Swagger.
+4.  **Format Code**: Đã cấu hình ESLint và Prettier để đảm bảo code luôn sạch sẽ, nhất quán.
+
+---
+
+## 🚀 Lệnh Thao Tác Nhanh
+
+- `npm run lint`: Kiểm tra và sửa lỗi format code.
+- `npm run build`: Biên dịch dự án ra thư mục `dist`.
+- `npm run migration:generate -- path/to/name`: Tạo file migration mới khi thay đổi Entity.
+- `npm run migration:revert`: Hoàn tác migration cuối cùng.
