@@ -15,13 +15,17 @@ export class AdminAuthService {
     const { email, password } = adminLoginDto;
     const admin = await this.adminsService.findByEmail(email);
 
-    if (!admin || !admin.isActive) {
-      throw new UnauthorizedException('Invalid credentials');
+    if (!admin) {
+      throw new UnauthorizedException('Email does not exist');
+    }
+
+    if (!admin.isActive) {
+      throw new UnauthorizedException('Account is disabled');
     }
 
     const isPasswordValid = await bcrypt.compare(password, admin.password);
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Incorrect password');
     }
 
     const payload = { sub: admin.id, email: admin.email, role: 'admin' };
