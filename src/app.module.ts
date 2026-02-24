@@ -10,9 +10,17 @@ import { User } from './modules/users/entities/user.entity';
 import { Admin } from './modules/admins/entities/admin.entity';
 import { Gift } from './modules/gifts/entities/gift.entity';
 
+import { ThrottlerModule } from '@nestjs/throttler';
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 10,
+      },
+    ]),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],

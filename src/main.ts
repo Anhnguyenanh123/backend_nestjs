@@ -3,8 +3,13 @@ import { AppModule } from './app.module';
 import { ValidationPipe, ClassSerializerInterceptor } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
+import { ConfigService } from '@nestjs/config';
+import { TypeOrmExceptionFilter } from './common/filters/typeorm-exception.filter';
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const configService = app.get(ConfigService);
 
   // Global Pipes
   app.useGlobalPipes(
@@ -16,7 +21,13 @@ async function bootstrap() {
   );
 
   // Global Interceptors
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  app.useGlobalInterceptors(
+    new ClassSerializerInterceptor(app.get(Reflector)),
+    new LoggingInterceptor(),
+  );
+
+  // Global Filters
+  app.useGlobalFilters(new TypeOrmExceptionFilter());
 
   // Swagger setup
   const config = new DocumentBuilder()
@@ -35,10 +46,9 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
 
-  await app.listen(process.env.PORT ?? 3000);
-  console.log(
-    `Application is running on: http://localhost:${process.env.PORT ?? 3000}/api/docs`,
-  );
+  const port = configService.get<number>('PORT') || 3000;
+  await app.listen(port);
+  console.log(`Application is running on: http://localhost:${port}/api/docs`);
 }
 
 void bootstrap();
